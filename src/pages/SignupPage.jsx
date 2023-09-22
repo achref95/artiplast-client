@@ -42,7 +42,7 @@ const SignUp = () => {
           {/* Up for a change */}
           <Link to="/">
             <div className="flex flex-row justify-center gap-x-4 items-center mb-2">
-              <h1 className="text-6xl font-bold">FiTrack</h1>
+              <h1 className="text-6xl font-bold">Artiplast</h1>
             </div>
           </Link>
           <div className="card-body">
