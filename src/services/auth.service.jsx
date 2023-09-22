@@ -30,7 +30,7 @@ const login = async ({ username, password }) => {
 
 const verifyToken = async (storedToken) => {
   try {
-    const response = await api.get("/verify", {
+    const response = await api.get("/auth/verify", {
       headers: { Authorization: `Bearer ${storedToken}` },
     });
     
