@@ -4,13 +4,11 @@ const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL 
 });
 
-const signupCoach = async ({ email, username, password, description }) => {
+const signup = async ({ username, password }) => {
   try {
-    const response = await api.post("/signup/coach", {
-      email,
+    const response = await api.post("/auth/signup", {
       username,
       password,
-      description,
     });
     return response.data;
   } catch (err) {
@@ -19,9 +17,9 @@ const signupCoach = async ({ email, username, password, description }) => {
 };
 
 
-const logIn = async ({ email, password, userType }) => {
+const login = async ({ email, password }) => {
   try {
-    const response = await api.post("/login", { email, password, userType });
+    const response = await api.post("/login", { email, password });
     return {responseData: response.data, responseStatus: response.status}
   } catch (err) {
     console.error(err);
@@ -56,8 +54,6 @@ const getCurrentUser = async () => {
 };
 
 
-
-
 const passwordUpdate = async ({ currentPassword, newPassword }) => {
   try {
     const token = localStorage.getItem("authToken");
@@ -80,8 +76,8 @@ const passwordUpdate = async ({ currentPassword, newPassword }) => {
 };
 
 const authMethods = {
-  signupCoach,
-  logIn,
+  signup,
+  login,
   verifyToken,
   getCurrentUser,
   passwordUpdate,
