@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { AuthContext } from "../context/auth.context";
 import productMethods from "../services/product.service";
 
@@ -6,6 +6,7 @@ const ProductsPage = () => {
   const [product, setProduct] = useState("");
   const [price, setPrice] = useState(0);
   const [quantity, setQuantity] = useState(0);
+  const [invoiceItems, setInvoiceItems] = useState([]);
 
   const { isLoggedIn, isLoading, expire } = useContext(AuthContext);
 
@@ -21,19 +22,34 @@ const ProductsPage = () => {
     setQuantity(parseInt(e.target.value, 10));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault(); 
+  const handleAddToInvoice = () => {
+    // Add the newly entered product to the invoice items list
+    const newItem = { product, price, quantity };
+    setInvoiceItems([...invoiceItems, newItem]);
 
+    setProduct("");
+    setPrice(0);
+    setQuantity(0);
+  };
+
+  const handleSubmit = async () => {
     try {
+      const productsArray = invoiceItems.map((item) => item.product);
+      const pricesArray = invoiceItems.map((item) => item.price);
+      const quantitiesArray = invoiceItems.map((item) => item.quantity);
+      console.log(productsArray)
+  
       const response = await productMethods.generate({
-        product: product,
-        price: price,
-        quantity: quantity,
+        product: productsArray,
+        price: pricesArray,
+        quantity: quantitiesArray,
       });
+  
       console.log(response);
+  
+      setInvoiceItems([]);
     } catch (error) {
       console.error(error);
-      // Handle and display the error to the user
     }
   };
 
@@ -45,7 +61,7 @@ const ProductsPage = () => {
         <span className="loading loading-ring loading-md"></span>
         <span className="loading loading-ring loading-lg"></span>
       </div>
-    )
+    );
   }
 
   if (expire) {
@@ -54,9 +70,9 @@ const ProductsPage = () => {
 
   return (
     isLoggedIn && (
-      <>
-        <form onSubmit={handleSubmit} className="space-y-2">
-          <h1>Add product:</h1>
+      <div>
+        <form className="flex space-y-2">
+          <h1>Add</h1>
           <input
             type="text"
             placeholder="Product"
@@ -65,7 +81,7 @@ const ProductsPage = () => {
             onChange={handleProduct}
             required
           />
-          <h1>Add price:</h1>
+          <h1>Add</h1>
           <input
             type="number" 
             placeholder="Price"
@@ -74,7 +90,7 @@ const ProductsPage = () => {
             onChange={handlePrice}
             required
           />
-          <h1>Add quantity:</h1>
+          <h1>Add</h1>
           <input
             type="number" 
             placeholder="Quantity"
@@ -84,14 +100,45 @@ const ProductsPage = () => {
             required
           />
           <button
+            type="button" // Use type="button" to prevent form submission
+            onClick={handleAddToInvoice}
             className="btn btn-neutral"
-            type="submit"
-            disabled={isLoading} // Disable the button while submitting
           >
-            Add
+            Add to Invoice
           </button>
         </form>
-      </>
+        
+        {invoiceItems.length > 0 && (
+          <div className="text-center">
+            <h2>Invoice Items:</h2>
+            <table className="w-full mx-auto">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                </tr>
+              </thead>
+              <tbody>
+                {invoiceItems.map((item, index) => (
+                  <tr key={index}>
+                    <td>{item.product}</td>
+                    <td>{item.price}</td>
+                    <td>{item.quantity}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <button
+              className="btn btn-primary mt-4"
+              onClick={handleSubmit}
+              disabled={isLoading}
+            >
+              Submit Invoice
+            </button>
+          </div>
+        )}
+      </div>
     )
   );
 };

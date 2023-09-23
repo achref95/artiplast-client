@@ -4,7 +4,7 @@ const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL
 });
 
-const generate = async ({/*invoicenumber,*/ product, price, quantity}) => {
+const generate = async ({ product, price, quantity}) => {
     try {
       const token = localStorage.getItem("authToken");
       const config = {
@@ -12,7 +12,8 @@ const generate = async ({/*invoicenumber,*/ product, price, quantity}) => {
           Authorization: `Bearer ${token}`,
         },
       };
-      const response = await api.post(`/invoice/generate`, {/*invoicenumber,*/ product, price, quantity}, config);
+      const response = await api.post(`/invoice/generate`, { product, price, quantity }, config);
+      console.log(response)
       return response.data;
     } catch (error) {
       throw error;
