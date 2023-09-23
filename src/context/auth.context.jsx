@@ -16,13 +16,28 @@ function AuthProviderWrapper(props) {
   const authenticateUser = async () => {
     try {
       const storedToken = localStorage.getItem('authToken');
-
+  
       if (storedToken) {
         const userPayload = await authMethods.verifyToken(storedToken);
-
-        setIsLoggedIn(true);
-        setIsLoading(false);
-        setUser(userPayload);
+  
+        if (!userPayload) {
+          // Token verification failed
+          logOutUser();
+          return;
+        }
+  
+        // Check if the token has expired
+        const tokenExpirationTimestamp = userPayload.exp * 1000; // Convert seconds to milliseconds
+        const currentTime = Date.now();
+  
+        if (tokenExpirationTimestamp <= currentTime) {
+          // Token has expired, perform token refresh or log out the user
+          logOutUser(); // add the expire state here
+        } else {
+          setIsLoggedIn(true);
+          setIsLoading(false);
+          setUser(userPayload);
+        }
       } else {
         setIsLoggedIn(false);
         setIsLoading(false);
@@ -30,12 +45,14 @@ function AuthProviderWrapper(props) {
         setExpire(true);
       }
     } catch (error) {
-      console.error(error);
+      console.error("Error in authenticateUser:", error);
       setIsLoggedIn(false);
       setIsLoading(false);
       setUser(null);
+      setExpire(true); // Consider setting expire to true in case of errors
     }
-  }
+  };
+  
 
   const removeToken = () => {
     localStorage.removeItem("authToken");

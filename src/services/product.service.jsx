@@ -19,8 +19,24 @@ const generate = async ({/*invoicenumber,*/ product, price, quantity}) => {
     }
   };
 
+const getInvoices = async () => {
+    try {
+      const token = localStorage.getItem("authToken");
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const response = await api.get(`/invoice/get`, config);
+      return response.data.invoice;
+    } catch (error) {
+      console.log(error)
+    }
+}
+
 const productMethods = {
     generate,
+    getInvoices,
 };
 
 export default productMethods;
