@@ -31,8 +31,8 @@ function AuthProviderWrapper(props) {
         const currentTime = Date.now();
   
         if (tokenExpirationTimestamp <= currentTime) {
-          // Token has expired, perform token refresh or log out the user
-          logOutUser(); // add the expire state here
+          // You can perfom any logic here, I just loggedout the user
+          logOutUser(); // You can add the expire state here
         } else {
           setIsLoggedIn(true);
           setIsLoading(false);
@@ -49,7 +49,7 @@ function AuthProviderWrapper(props) {
       setIsLoggedIn(false);
       setIsLoading(false);
       setUser(null);
-      setExpire(true); // Consider setting expire to true in case of errors
+      setExpire(true);
     }
   };
   
