@@ -78,7 +78,7 @@ const ProductsPage = () => {
   return (
     isLoggedIn && (
       <div>
-        <form className="flex space-y-2">
+        <form className="flex space-y-2 justify-around">
           <h1>Add</h1>
           <input
             type="text"
