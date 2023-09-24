@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
 import productMethods from "../services/product.service";
 
@@ -33,11 +34,7 @@ const InvoicesPage = () => {
   }
 
   if (expire) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <h1 className="text-center">Token expired</h1>
-      </div>
-    );
+    return <div>Please <Link to="/login"><strong>login</strong></Link> again</div>;
   }
 
   return (

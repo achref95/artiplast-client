@@ -1,4 +1,5 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
 import productMethods from "../services/product.service";
 
@@ -65,7 +66,7 @@ const ProductsPage = () => {
   }
 
   if (expire) {
-    return <div>Your token has expired</div>;
+    return <div>Please <Link to="/login"><strong>login</strong></Link> again</div>;
   }
 
   return (
