@@ -43,7 +43,7 @@ const deleteInvoices = async (_id) => {
         Authorization: `Bearer ${token}`,
       },
     };
-    const response = await api.delete(`/invoice/delete`, {_id}, config)
+    const response = await api.delete(`/invoice/delete/${_id}` , config)
     return response.data
   } catch (error) {
     console.log(error)

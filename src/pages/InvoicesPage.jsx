@@ -7,6 +7,16 @@ const InvoicesPage = () => {
   const [invoices, setInvoices] = useState([]);
   const { isLoggedIn, isLoading, expire } = useContext(AuthContext);
 
+  const handleDelete = async (_id) => {
+    try {
+      const response = await productMethods.deleteInvoices(_id);
+      setInvoices((prev) => prev.filter((invoice) => invoice._id !== _id))
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     if (isLoggedIn) {
       const fetchInvoices = async () => {
@@ -70,7 +80,7 @@ const InvoicesPage = () => {
               <div>
                 <button 
                   className="btn btn-primary"
-                  // onClick={() => handleDelete(index)}
+                  onClick={() => handleDelete(invoice._id)}
                 >
                   del
                 </button>
