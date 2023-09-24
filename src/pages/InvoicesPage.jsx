@@ -67,6 +67,14 @@ const InvoicesPage = () => {
                   ))}
                 </ul>
               </div>
+              <div>
+                <button 
+                  className="btn btn-primary"
+                  // onClick={() => handleDelete(index)}
+                >
+                  del
+                </button>
+              </div>
             </div>
           </div>
         ))}
