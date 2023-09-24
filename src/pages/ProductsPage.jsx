@@ -33,6 +33,12 @@ const ProductsPage = () => {
     setQuantity(0);
   };
 
+  const handleDelete = (index) => {
+    const updatedInvoiceItems = [...invoiceItems];
+    updatedInvoiceItems.splice(index, 1);
+    setInvoiceItems(updatedInvoiceItems);
+  };
+
   const handleSubmit = async () => {
     try {
       const productsArray = invoiceItems.map((item) => item.product);
@@ -126,6 +132,9 @@ const ProductsPage = () => {
                     <td>{item.product}</td>
                     <td>{item.price}</td>
                     <td>{item.quantity}</td>
+                    <td><button 
+                          className="btn btn-primary"
+                          onClick={() => handleDelete(index)}>del</button></td>
                   </tr>
                 ))}
               </tbody>
