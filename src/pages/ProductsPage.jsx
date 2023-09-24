@@ -132,9 +132,14 @@ const ProductsPage = () => {
                     <td>{item.product}</td>
                     <td>{item.price}</td>
                     <td>{item.quantity}</td>
-                    <td><button 
-                          className="btn btn-primary"
-                          onClick={() => handleDelete(index)}>del</button></td>
+                    <td>
+                      <button 
+                        className="btn btn-primary"
+                        onClick={() => handleDelete(index)}
+                      >
+                            del
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
