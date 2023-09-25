@@ -4,12 +4,17 @@ import { AuthContext } from "../context/auth.context";
 import productMethods from "../services/product.service";
 
 const ProductsPage = () => {
+  const [client, setClient] = useState("");
   const [product, setProduct] = useState("");
   const [price, setPrice] = useState(0);
   const [quantity, setQuantity] = useState(0);
   const [invoiceItems, setInvoiceItems] = useState([]);
 
   const { isLoggedIn, isLoading, expire } = useContext(AuthContext);
+
+  const handleClient = (e) => {
+    setClient(e.target.value);
+  }
 
   const handleProduct = (e) => {
     setProduct(e.target.value);
@@ -25,7 +30,8 @@ const ProductsPage = () => {
 
   const handleAddToInvoice = () => {
     // Add the newly entered product to the invoice items list
-    const newItem = { product, price, quantity };
+    const newItem = { client, product, price, quantity };
+    console.log(newItem)
     setInvoiceItems([...invoiceItems, newItem]);
 
     setProduct("");
@@ -44,9 +50,10 @@ const ProductsPage = () => {
       const productsArray = invoiceItems.map((item) => item.product);
       const pricesArray = invoiceItems.map((item) => item.price);
       const quantitiesArray = invoiceItems.map((item) => item.quantity);
-      console.log(productsArray)
-  
+      const clientName = client
+
       const response = await productMethods.generate({
+        client: clientName,
         product: productsArray,
         price: pricesArray,
         quantity: quantitiesArray,
@@ -79,6 +86,15 @@ const ProductsPage = () => {
     isLoggedIn && (
       <div>
         <form className="flex space-y-2 justify-around">
+          <h1>Add</h1>
+          <input
+            type="text"
+            placeholder="Client"
+            className="input input-bordered input-primary w-full max-w-xs"
+            value={client}
+            onChange={handleClient}
+            required
+          />
           <h1>Add</h1>
           <input
             type="text"
@@ -121,6 +137,7 @@ const ProductsPage = () => {
             <table className="w-full mx-auto">
               <thead>
                 <tr>
+                  {/* <th>Client</th> */}
                   <th>Product</th>
                   <th>Price</th>
                   <th>Quantity</th>
