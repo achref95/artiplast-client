@@ -50,10 +50,27 @@ const deleteInvoices = async (_id) => {
   }
 }
 
+const getClients = async () => {
+  try {
+    const token = localStorage.getItem("authToken");
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const response = await api.get(`/client/suggestions`, config)
+    console.log(response.data.clients)
+    return response.data.clients
+  } catch (error) {
+    console.log(error)
+  }
+};
+
 const productMethods = {
     generate,
     getInvoices,
     deleteInvoices,
+    getClients,
 };
 
 export default productMethods;

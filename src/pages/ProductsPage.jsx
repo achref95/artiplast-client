@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
 import productMethods from "../services/product.service";
+import SearchBar from "../components/SearchBar";
 
 const ProductsPage = () => {
   const [client, setClient] = useState("");
@@ -85,6 +86,7 @@ const ProductsPage = () => {
   return (
     isLoggedIn && (
       <div>
+        <SearchBar/>
         <form className="flex space-y-2 justify-around">
           <h1>Add</h1>
           <input
