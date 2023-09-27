@@ -86,7 +86,7 @@ const ProductsPage = () => {
   return (
     isLoggedIn && (
       <div>
-        <SearchBar/>
+        <SearchBar setClient={setClient}/>
         <form className="flex space-y-2 justify-around">
           <h1>Add</h1>
           <input

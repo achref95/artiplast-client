@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import productMethods from "../services/product.service";
 
-const SearchBar = () => {
+const SearchBar = ({ setClient }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -25,6 +25,8 @@ const SearchBar = () => {
   const handleInputChange = (event) => {
     const { value } = event.target;
     setSearchTerm(value);
+    setClient(value)
+
   
     // Show suggestions when input changes, hide them when empty
     setShowSuggestions(!!value);
@@ -34,6 +36,7 @@ const SearchBar = () => {
   const handleSuggestionClick = (suggestion) => {
     setSearchTerm(suggestion);
     setShowSuggestions(false); // Hide suggestions after clicking
+    setClient(suggestion)
   };
 
   // Filter suggestions based on the search term
